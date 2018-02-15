@@ -100,11 +100,12 @@ function processOperator(evt) {
   
   var operator = evt.target.innerText
   entries.push(temp)
-  if (operator == '÷') {
-    entries.push('/')
-  } else if (operator == '\xD7') {
-    entries.push('*')  
-  } else entries.push(operator)
+//   if (operator == '÷') {
+//     entries.push('/')
+//   } else if (operator == '\xD7') {
+//     entries.push('*')  
+//   } else 
+  entries.push(operator)
   temp = ''
 }
 
@@ -137,10 +138,10 @@ function processEquals() {
         case '-': 
           nt -= nextNum
           break
-        case '*': 
+        case '\xD7': 
           nt *= nextNum
           break
-        case '/': 
+        case '\xF7': 
           nt /= nextNum
           break
         }
