@@ -58,7 +58,7 @@ button {
   font-family: 'Roboto', sans-serif;
 }
 
-.operator {
+.operator, .equals {
   background-color: rgba(255, 136, 0, 0.932);
 
 }

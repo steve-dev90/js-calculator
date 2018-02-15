@@ -6,10 +6,11 @@
 
 var entries = []
 var temp = ''
+var percentFlag = false
 
 document.addEventListener('DOMContentLoaded', start)
 
-function start () {
+function start () {  
     
   var numberButtons = document.getElementsByClassName('number')
   for (var i = 0; i < numberButtons.length; i++) {
@@ -23,6 +24,17 @@ function start () {
     ctrlButtons[i].addEventListener('click',processCtrl)
   }  
 
+  var percentButton = document.getElementsByClassName('percent')
+  percentButton[0].addEventListener('click',processPercent) 
+
+  var operatorButtons = document.getElementsByClassName('operator')
+  for (var i = 0; i < operatorButtons.length; i++) {
+    console.log("hello3")
+    operatorButtons[i].addEventListener('click',processOperator)
+  } 
+  
+  var equalsButton = document.getElementsByClassName('equals')
+  equalsButton[0].addEventListener('click',processEquals) 
 
 }
 
@@ -33,9 +45,13 @@ function start () {
 
 function processNumber (evt) {
   var calculatorDisplay = document.getElementsByClassName('display')[0]
-  temp += evt.target.innerText    
-  calculatorDisplay.innerHTML = temp
-  
+  if (!percentFlag) {
+    temp += evt.target.innerText
+  } else {
+    temp = evt.target.innerText
+    percentFlag = false
+  }   
+  calculatorDisplay.innerHTML = temp 
 }
 
 // Else if the button is “AC” then 
@@ -57,3 +73,82 @@ function processCtrl (evt) {
   calculatorDisplay.innerHTML = temp
 }
 
+// Else if the button is a %
+// 	temp = temp / 100
+// 	Set percent = true 
+// 	Show the number in the calculator display
+ 
+function processPercent () {  
+  var calculatorDisplay = document.getElementsByClassName('display')[0]
+  temp = temp/100
+  calculatorDisplay.innerHTML = temp
+  percentFlag = true
+}
+
+// Else if the button is a division or multiplication symbol then
+// 	Add temp to entries (as a new array element)
+// 	If the division button is pressed add a “/“ to entries 
+// 	If the multiplication button is pressed add “*” to entries
+// 	Reset temp to an empty string
+
+// Else if the button is + or a - then
+// 	Add temp to entries
+// 	Add the operator (a “+” or a “-“ button string) to entries
+// 	Reset temp to an empty string
+
+function processOperator(evt) {
+  
+  var operator = evt.target.innerText
+  entries.push(temp)
+  if (operator == '÷') {
+    entries.push('/')
+  } else if (operator == '\xD7') {
+    entries.push('*')  
+  } else entries.push(operator)
+  temp = ''
+}
+
+// Else if the button is an equals then
+// 	Add temp to entries 
+// 	Set to the first element of entries (i = 0) and convert of a number
+	
+// 	Loop over all elements in entries starting from i = 1
+// 		Set nextNum = entries element i + 1
+// 		Set symbol to the operator (+, -, * and /)
+// 		nt = nt (apply operator) nextNum (e.g. if operator = + then nt = nt + nextNum)
+		
+// 	//Display negative symbols correctly
+// 	nt = absolute value of nt + ‘-‘
+	
+// 	Show nt in the calculator display
+// 	Reset the entries to an empty array and temp to an empty string
+
+function processEquals() {
+    var calculatorDisplay = document.getElementsByClassName('display')[0]
+    entries.push(temp)
+    var nt = Number(entries[0])
+
+    for (var i = 1; i < entries.length; i++) {
+      var nextNum = Number(entries[i+1])
+      switch (entries[i]) {
+        case '+': 
+          nt += nextNum 
+          break
+        case '-': 
+          nt -= nextNum
+          break
+        case '*': 
+          nt *= nextNum
+          break
+        case '/': 
+          nt /= nextNum
+          break
+        }
+        i++
+    }
+
+    calculatorDisplay.innerHTML = String(nt)
+    entry = []
+    temp = ''
+
+}
