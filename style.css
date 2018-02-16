@@ -24,12 +24,17 @@
 }
 
 .display {
-  width: 270px;
+  width: 300px;
   height: 90px;
   margin: 3px auto;
+  padding: 0px 4px;
   text-align: right; 
+  border-width: 1px;
+  border-color: white;
+  border-radius: 20px;
+  background-color: rgb(40,40,40);
   
-  font-size: 30px;
+  font-size: 60px;
   color: white;
   font-family: 'Roboto', sans-serif;
 }
@@ -39,19 +44,24 @@
 }
 
 button {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    border-width: 0px;
-    margin: 5px 3px;
-    font-size: 30px;
-    color: white;
-    font-family: 'Roboto', sans-serif;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border-width: 0px;
+  margin: 5px 3px;
+  font-size: 30px;
+  color: white;
+  font-family: 'Roboto', sans-serif;
 }
 
 .operator, .equals {
   background: linear-gradient(rgba(255, 136, 0, 0.932), rgba(255, 136, 0, 0.8));
   box-shadow: 0 4px 1px 0 rgba(255, 136, 0, 0.65); 
+}
+
+.operator:active, .equals:active {
+    background: linear-gradient(rgba(255, 136, 0, 0.85), rgba(255, 136, 0, 0.75));
+    box-shadow: inset 0 -4px 1px 0 rgba(255, 136, 0, 0.60);    
 }
 
 .ctrl, .percent {
@@ -60,9 +70,19 @@ button {
   color: black;
 }
 
+.ctrl:active, .percent:active {
+  background: linear-gradient(rgba(128, 128, 128, 0.8), rgba(128, 128, 128, 0.7));
+  box-shadow: inset 0 -4px 1px 0 rgba(128, 128, 128, 0.6); 
+}
+
 .number {
   background: linear-gradient(rgba(128, 128, 128, 0.5), rgba(128, 128, 128, 0.3)); 
   box-shadow: 0 4px 1px 0 rgba(128, 128, 128, 0.25); 
+}
+
+.number:active {
+    background: linear-gradient(rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0.2));
+    box-shadow: inset 0 -4px 1px 0 rgba(128, 128, 128, 0.15);
 }
 
 #zero {
@@ -70,4 +90,9 @@ button {
   background: linear-gradient(rgba(128, 128, 128, 1.0), rgba(128, 128, 128, 0.8));
   box-shadow: 0 4px 1px 0 rgba(128, 128, 128, 0.7); 
   border-radius: 35px;    
+}
+
+#zero:active {
+  background: linear-gradient(rgba(128, 128, 128, 0.8), rgba(128, 128, 128, 0.7));
+  box-shadow: inset 0 -4px 1px 0 rgba(128, 128, 128, 0.6);
 }
