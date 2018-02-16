@@ -7,6 +7,7 @@
 var entries = []
 var temp = ''
 var percentFlag = false
+var zeroFlag = false
 
 document.addEventListener('DOMContentLoaded', start)
 
@@ -45,13 +46,22 @@ function start () {
 
 function processNumber (evt) {
   var calculatorDisplay = document.getElementsByClassName('display')[0]
+  
   if (!percentFlag) {
-    temp += evt.target.innerText
+    if (zeroFlag) {
+      if (!(evt.target.innerText == ".")) {
+        temp = evt.target.innerText
+      } else {
+        temp += evt.target.innerText    
+      }  
+      zeroFlag = false
+    } else temp += evt.target.innerText
   } else {
     temp = evt.target.innerText
     percentFlag = false
   }   
   calculatorDisplay.innerHTML = temp 
+  if (temp == "0") zeroFlag = true 
 }
 
 // Else if the button is “AC” then 
@@ -100,11 +110,6 @@ function processOperator(evt) {
   
   var operator = evt.target.innerText
   entries.push(temp)
-//   if (operator == '÷') {
-//     entries.push('/')
-//   } else if (operator == '\xD7') {
-//     entries.push('*')  
-//   } else 
   entries.push(operator)
   temp = ''
 }
@@ -149,7 +154,7 @@ function processEquals() {
     }
 
     calculatorDisplay.innerHTML = String(nt)
-    entry = []
+    entries = []
     temp = ''
 
 }
