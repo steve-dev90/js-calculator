@@ -60,7 +60,7 @@ function processNumber (evt) {
     temp = evt.target.innerText
     percentFlag = false
   }   
-  calculatorDisplay.innerHTML = temp 
+  calculatorDisplay.innerHTML = temp.substring(0,9) 
   if (temp == "0") zeroFlag = true 
 }
 
@@ -91,17 +91,11 @@ function processCtrl (evt) {
 function processPercent () {  
   var calculatorDisplay = document.getElementsByClassName('display')[0]
   temp = temp/100
-  calculatorDisplay.innerHTML = temp
+  calculatorDisplay.innerHTML = temp.substring(0,8) 
   percentFlag = true
 }
 
-// Else if the button is a division or multiplication symbol then
-// 	Add temp to entries (as a new array element)
-// 	If the division button is pressed add a “/“ to entries 
-// 	If the multiplication button is pressed add “*” to entries
-// 	Reset temp to an empty string
-
-// Else if the button is + or a - then
+// Else if the button is an operator (+, -, * or /) then
 // 	Add temp to entries
 // 	Add the operator (a “+” or a “-“ button string) to entries
 // 	Reset temp to an empty string
@@ -120,11 +114,8 @@ function processOperator(evt) {
 	
 // 	Loop over all elements in entries starting from i = 1
 // 		Set nextNum = entries element i + 1
-// 		Set symbol to the operator (+, -, * and /)
 // 		nt = nt (apply operator) nextNum (e.g. if operator = + then nt = nt + nextNum)
-		
-// 	//Display negative symbols correctly
-// 	nt = absolute value of nt + ‘-‘
+//      i = i + 1
 	
 // 	Show nt in the calculator display
 // 	Reset the entries to an empty array and temp to an empty string
@@ -153,7 +144,7 @@ function processEquals() {
         i++
     }
 
-    calculatorDisplay.innerHTML = String(nt)
+    calculatorDisplay.innerHTML = String(nt).substring(0,8) 
     entries = []
     temp = ''
 
