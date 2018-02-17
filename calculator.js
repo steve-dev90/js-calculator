@@ -133,6 +133,7 @@ function calculate(firstNumber, secondNumber, operator) {
     } 
 }
 
+//Display output on calculator
 function display(numberToDisplay) {
   var calculatorDisplay = document.getElementsByClassName('display')[0] 
   calculatorDisplay.innerHTML = numberToDisplay.substring(0,9)      
