@@ -12,7 +12,7 @@ var zeroFlag = false
 document.addEventListener('DOMContentLoaded', start)
 
 function start () {  
-    
+   
   buttonEventListensers('number', processNumber)
   buttonEventListensers('ctrl', processCtrl)
   buttonEventListensers('percent',processPercent)
@@ -90,9 +90,11 @@ function processPercent () {
 
 function processOperator(evt) { 
   var operator = evt.target.innerText
-  entries.push(temp)
-  entries.push(operator)
-  temp = ''
+  if (!(temp == '')) {
+    entries.push(temp)
+    entries.push(operator)
+    temp = '' 
+  }
 }
 
 // Else if the button is an equals then
@@ -135,6 +137,7 @@ function calculate(firstNumber, secondNumber, operator) {
 
 //Display output on calculator
 function display(numberToDisplay) {
-  var calculatorDisplay = document.getElementsByClassName('display')[0] 
+  var calculatorDisplay = document.getElementsByClassName('display')[0]
+  if (numberToDisplay.length > 9) numberToDisplay = "Error"   
   calculatorDisplay.innerHTML = numberToDisplay.substring(0,9)      
 }
