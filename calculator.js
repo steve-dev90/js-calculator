@@ -13,30 +13,19 @@ document.addEventListener('DOMContentLoaded', start)
 
 function start () {  
     
-  var numberButtons = document.getElementsByClassName('number')
-  for (var i = 0; i < numberButtons.length; i++) {
-    console.log("hello1")
-    numberButtons[i].addEventListener('click',processNumber)
+  buttonEventListensers('number', processNumber)
+  buttonEventListensers('ctrl', processCtrl)
+  buttonEventListensers('percent',processPercent)
+  buttonEventListensers('operator', processOperator)
+  buttonEventListensers('equals', processEquals)
+
+}
+
+function buttonEventListensers(buttonClass,processFunction) {
+  var buttons = document.getElementsByClassName(buttonClass)
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click',processFunction)
   }  
-
-  var ctrlButtons = document.getElementsByClassName('ctrl')
-  for (var i = 0; i < ctrlButtons.length; i++) {
-    console.log("hello2")
-    ctrlButtons[i].addEventListener('click',processCtrl)
-  }  
-
-  var percentButton = document.getElementsByClassName('percent')
-  percentButton[0].addEventListener('click',processPercent) 
-
-  var operatorButtons = document.getElementsByClassName('operator')
-  for (var i = 0; i < operatorButtons.length; i++) {
-    console.log("hello3")
-    operatorButtons[i].addEventListener('click',processOperator)
-  } 
-  
-  var equalsButton = document.getElementsByClassName('equals')
-  equalsButton[0].addEventListener('click',processEquals) 
-
 }
 
 // If the button is a number or a “.” then
@@ -45,63 +34,61 @@ function start () {
 // 	Show the number in the calculator display
 
 function processNumber (evt) {
-  var calculatorDisplay = document.getElementsByClassName('display')[0]
-  
   if (!percentFlag) {
-    if (zeroFlag) {
-      if (!(evt.target.innerText == ".")) {
-        temp = evt.target.innerText
-      } else {
-        temp += evt.target.innerText    
-      }  
-      zeroFlag = false
-    } else temp += evt.target.innerText
+    zeroFlag ? processZero(evt) : temp += evt.target.innerText
   } else {
     temp = evt.target.innerText
     percentFlag = false
   }   
-  calculatorDisplay.innerHTML = temp.substring(0,9) 
+
+  display(temp)
   if (temp == "0") zeroFlag = true 
 }
 
-// Else if the button is “AC” then 
+//Remove leading zeros i.e. if a user input a 0 and then a 2 just display 2 not (02)
+function processZero (evt) {
+  !(evt.target.innerText == ".") ?
+    temp = evt.target.innerText :
+    temp += evt.target.innerText     
+  zeroFlag = false 
+}
+
+// If the button is “AC” then 
 // 	Reset the entries to an empty array and temp to an empty string
 // 	Clear the calculator display
 
-// Else if the button is “CC” then 
+// If the button is “CC” then 
 // 	Reset temp to an empty string 
 // 	(Retain the entries array - this is “stored” in the calculators memory)
 // 	Clear the calculator display
 
 function processCtrl (evt) {
-  var calculatorDisplay = document.getElementsByClassName('display')[0] 
   var ctrl = evt.target.innerText
-  if (ctrl = "AC") {
+  if (ctrl == "AC") {
     entries = []
     temp = ''
   } else temp = ''
-  calculatorDisplay.innerHTML = temp
+  display(temp)
 }
 
-// Else if the button is a %
+// If the button is a %
 // 	temp = temp / 100
 // 	Set percent = true 
 // 	Show the number in the calculator display
  
 function processPercent () {  
-  var calculatorDisplay = document.getElementsByClassName('display')[0]
-  temp = temp/100
-  calculatorDisplay.innerHTML = temp.substring(0,8) 
+  temp = String(temp/100)
+  display(temp)  
   percentFlag = true
+
 }
 
-// Else if the button is an operator (+, -, * or /) then
+// If the button is an operator (+, -, * or /) then
 // 	Add temp to entries
-// 	Add the operator (a “+” or a “-“ button string) to entries
+// 	Add the operator (a "+", "-", "x", / button string) to entries
 // 	Reset temp to an empty string
 
-function processOperator(evt) {
-  
+function processOperator(evt) { 
   var operator = evt.target.innerText
   entries.push(temp)
   entries.push(operator)
@@ -110,7 +97,7 @@ function processOperator(evt) {
 
 // Else if the button is an equals then
 // 	Add temp to entries 
-// 	Set to the first element of entries (i = 0) and convert of a number
+// 	Set nt to the first element of entries (i = 0) and convert of a number
 	
 // 	Loop over all elements in entries starting from i = 1
 // 		Set nextNum = entries element i + 1
@@ -121,31 +108,32 @@ function processOperator(evt) {
 // 	Reset the entries to an empty array and temp to an empty string
 
 function processEquals() {
-    var calculatorDisplay = document.getElementsByClassName('display')[0]
+    
     entries.push(temp)
     var nt = Number(entries[0])
 
     for (var i = 1; i < entries.length; i++) {
       var nextNum = Number(entries[i+1])
-      switch (entries[i]) {
-        case '+': 
-          nt += nextNum 
-          break
-        case '-': 
-          nt -= nextNum
-          break
-        case '\xD7': 
-          nt *= nextNum
-          break
-        case '\xF7': 
-          nt /= nextNum
-          break
-        }
-        i++
+      nt = calculate(nt , nextNum, entries[i])
+      i++
     }
 
-    calculatorDisplay.innerHTML = String(nt).substring(0,8) 
+    display(String(nt))
     entries = []
     temp = ''
 
+}
+
+function calculate(firstNumber, secondNumber, operator) {
+  switch (operator) {
+    case '+': return firstNumber + secondNumber
+    case '-': return firstNumber - secondNumber
+    case '\xD7': return firstNumber * secondNumber
+    case '\xF7': return firstNumber / secondNumber
+    } 
+}
+
+function display(numberToDisplay) {
+  var calculatorDisplay = document.getElementsByClassName('display')[0] 
+  calculatorDisplay.innerHTML = numberToDisplay.substring(0,9)      
 }
