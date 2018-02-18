@@ -90,6 +90,8 @@ function processPercent () {
 
 function processOperator(evt) { 
   var operator = evt.target.innerText
+  //Only process the first click of a operator button. So if a user enters 4 + * 4 
+  //this is processed as 4 + 4 
   if (!(temp == '')) {
     entries.push(temp)
     entries.push(operator)
